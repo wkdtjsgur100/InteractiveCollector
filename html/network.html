@@ -448,9 +448,11 @@
 
             var network = new vis.Network(container, data, options);
             network.on("doubleClick", function(params) {
-                var s = DIR + nodes[params.nodes - 1]["imagehigh"];
-                $('.imagepreview').attr('src', s);
-                $('#imagemodal').modal('show');
+                if (typeof(nodes[params.nodes - 1]["image"]) !== 'undefined') {
+                    var s = DIR + nodes[params.nodes - 1]["imagehigh"];
+                    $('.imagepreview').attr('src', s);
+                    $('#imagemodal').modal('show');
+                }
             });
 
         }

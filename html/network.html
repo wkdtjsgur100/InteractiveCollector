@@ -146,19 +146,12 @@
             };
 
             var network = new vis.Network(container, data, options);
-            network.on("doubleClick", function () {
-                //$('.imagepreview').attr('src',$(this).find('img').attr('src'));
+            network.on("doubleClick", function (params) {
+                $('.imagepreview').attr('src', nodes[params.nodes - 1]["image"]);
                 $('#imagemodal').modal('show');
             });
 
-        } // end draw()
-        /*
-        $(function(){
-            $('.pop').on('click',function(){
-                //$('.imagepreview').attr('src',$(this).find('img').attr('src'));
-                $('#imagemodal').modal('show');     
-            });
-        });*/
+        } 
     </script>
 </head>
 
@@ -172,12 +165,11 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <img src="../img/img1-0.jpg" class="imagepreview" style="width: 100%;">
+                    <img src="" class="imagepreview" style="width: 100%;">
                 </div>
             </div>
         </div>
     </div>
-
 </body>
 
 </html>

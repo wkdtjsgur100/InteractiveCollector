@@ -1,18 +1,20 @@
 <!DOCTYPE HTML>
 <html>
+
 <head>
     <script type="text/javascript" src="../js/vis.js"></script>
     <link href="../css/vis.css" rel="stylesheet" type="text/css" />
-    
+
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    
+
     <style type="text/css">
         body {
             font: 10pt arial;
         }
+        
         #mynetwork {
             width: 800px;
             height: 600px;
@@ -20,93 +22,162 @@
             background-color: #333333;
         }
     </style>
-    
-    <script type="text/javascript"> 
-    var DIR = 'img/';
 
-    var nodes = null;
-    var edges = null;
-    var network = null;
+    <script type="text/javascript">
+        var DIR = 'img/';
 
-    // Called when the Visualization API is loaded.
-    function draw() {
-      // create people.
-      // value corresponds with the age of the person
-      var DIR = '../img/';
-      nodes = [
-        {id: 1,  shape: 'image', image: DIR + 'img1-0.jpg'},
-        {id: 2,  shape: 'image', image: DIR + 'img1-1.jpg'},
-        {id: 3,  shape: 'image', image: DIR + 'img1-2.jpg'},
-        {id: 4,  shape: 'image', image: DIR + 'img1-3.jpg'},
-        {id: 5,  shape: 'image', image: DIR + 'img1-4.jpg'},
-        {id: 6,  shape: 'image', image: DIR + 'img1-5.jpg'},
-        {id: 7,  shape: 'image', image: DIR + 'img1-6.jpg'},
-        {id: 8,  shape: 'image', image: DIR + 'img1-7.jpg'},
-        {id: 9,  shape: 'image', image: DIR + 'img1-8.jpg'}
+        var nodes = null;
+        var edges = null;
+
+        // Called when the Visualization API is loaded.
+        function draw() {
+            // create people.
+            // value corresponds with the age of the person
+            var DIR = '../img/';
+            nodes = [
+                {
+                    id: 1
+                    , shape: 'image'
+                    , image: DIR + 'img1-0.jpg'
+                }
+                , {
+                    id: 2
+                    , shape: 'image'
+                    , image: DIR + 'img1-1.jpg'
+                }
+                , {
+                    id: 3
+                    , shape: 'image'
+                    , image: DIR + 'img1-2.jpg'
+                }
+                , {
+                    id: 4
+                    , shape: 'image'
+                    , image: DIR + 'img1-3.jpg'
+                }
+                , {
+                    id: 5
+                    , shape: 'image'
+                    , image: DIR + 'img1-4.jpg'
+                }
+                , {
+                    id: 6
+                    , shape: 'image'
+                    , image: DIR + 'img1-5.jpg'
+                }
+                , {
+                    id: 7
+                    , shape: 'image'
+                    , image: DIR + 'img1-6.jpg'
+                }
+                , {
+                    id: 8
+                    , shape: 'image'
+                    , image: DIR + 'img1-7.jpg'
+                }
+                , {
+                    id: 9
+                    , shape: 'image'
+                    , image: DIR + 'img1-8.jpg'
+                }
       ];
 
-      // create connections between people
-      // value corresponds with the amount of contact between two people
-      edges = [
-        {from: 1, to: 2},
-        {from: 9, to: 1},
-        {from: 2, to: 3},
-        {from: 9, to: 4},
-        {from: 9, to: 5},
-        {from: 5, to: 6},
-        {from: 6, to: 7},
-        {from: 6, to: 8}
+            // create connections between people
+            // value corresponds with the amount of contact between two people
+            edges = [
+                {
+                    from: 1
+                    , to: 2
+                }
+                , {
+                    from: 9
+                    , to: 1
+                }
+                , {
+                    from: 2
+                    , to: 3
+                }
+                , {
+                    from: 9
+                    , to: 4
+                }
+                , {
+                    from: 9
+                    , to: 5
+                }
+                , {
+                    from: 5
+                    , to: 6
+                }
+                , {
+                    from: 6
+                    , to: 7
+                }
+                , {
+                    from: 6
+                    , to: 8
+                }
       ];
 
-      // create a network
-      var container = document.getElementById('mynetwork');
-      var data = {
-        nodes: nodes,
-        edges: edges
-      };
-      var options = {
-        nodes: {
-          borderWidth:4,
-          size:30,
-	      color: {
-            border: '#406897',
-            background: '#6AAFFF'
-          },
-          font:{color:'#eeeeee'},
-          shapeProperties: {
-            useBorderWithImage:true
-          }
-        },
-        edges: {
-          color: 'lightgray'
-        }
-      };
-      network = new vis.Network(container, data, options);
-    }
+            // create a network
+            var container = document.getElementById('mynetwork');
+            var data = {
+                nodes: nodes
+                , edges: edges
+            };
+            var options = {
+                nodes: {
+                    borderWidth: 4
+                    , size: 30
+                    , color: {
+                        border: '#406897'
+                        , background: '#6AAFFF'
+                    }
+                    , font: {
+                        color: '#eeeeee'
+                    }
+                    , shapeProperties: {
+                        useBorderWithImage: true
+                    }
+                }
+                , edges: {
+                    color: 'lightgray'
+                }
+            };
+
+            var network = new vis.Network(container, data, options);
+            network.on("doubleClick", function () {
+                //$('.imagepreview').attr('src',$(this).find('img').attr('src'));
+                $('#imagemodal').modal('show');
+            });
+
+        } // end draw()
+        /*
         $(function(){
             $('.pop').on('click',function(){
                 //$('.imagepreview').attr('src',$(this).find('img').attr('src'));
                 $('#imagemodal').modal('show');     
             });
-        });
-        
-  </script>
+        });*/
+    </script>
 </head>
+
 <body onload="draw()">
-<div id="mynetwork"></div>
+    <div id="mynetwork"></div>
     <button type="button" class="pop">
         확대
     </button>
     <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">              
-      <div class="modal-body">
-      	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <img src="../img/img1-0.jpg" class="imagepreview" style="width: 100%;" >
-      </div>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <img src="../img/img1-0.jpg" class="imagepreview" style="width: 100%;">
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
-    
+
 </body>
+
 </html>

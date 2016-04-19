@@ -32,8 +32,8 @@
 
         // Called when the Visualization API is loaded.
         function draw() {
-            
-             var options = {
+
+            var options = {
                 groups: {
                     devm: {
                         shape: 'icon',
@@ -348,13 +348,13 @@
             }, {
                 from: 9,
                 to: 38
-            }, {// Depropedia
+            }, { // Depropedia
                 from: 33,
                 to: 11
             }, {
                 from: 33,
                 to: 24
-            }, {// Mirror Mirror
+            }, { // Mirror Mirror
                 from: 34,
                 to: 11
             }, {
@@ -369,9 +369,9 @@
             }, {
                 from: 34,
                 to: 26
-            }, {// Facebook Link
+            }, { // Facebook Link
                 from: 35,
-                to: 13                
+                to: 13
             }, {
                 from: 35,
                 to: 14
@@ -387,7 +387,7 @@
             }, {
                 from: 35,
                 to: 28
-            }, {// Interactive Web
+            }, { // Interactive Web
                 from: 36,
                 to: 11
             }, {
@@ -399,7 +399,7 @@
             }, {
                 from: 36,
                 to: 22
-            }, {// Food commander
+            }, { // Food commander
                 from: 37,
                 to: 10
             }, {
@@ -414,7 +414,7 @@
             }, {
                 from: 37,
                 to: 29
-            }, {// Homepage
+            }, { // Homepage
                 from: 38,
                 to: 15
             }, {
@@ -429,15 +429,24 @@
             }, {
                 from: 38,
                 to: 31
-            }, {// special
+            }, { // special
                 from: 18,
                 to: 32,
-                arrows:{to:{scaleFactor:2}},
+                arrows: {
+                    to: {
+                        scaleFactor: 2
+                    }
+                },
                 value: 6
-            }, {from: 32,
-               to: 18,
-               arrows:{to:{scaleFactor:4}},
-               value:3
+            }, {
+                from: 32,
+                to: 18,
+                arrows: {
+                    to: {
+                        scaleFactor: 4
+                    }
+                },
+                value: 3
             }];
             // create a network
             var container = document.getElementById('mynetwork');
@@ -452,6 +461,20 @@
                     var s = DIR + nodes[params.nodes - 1]["imagehigh"];
                     $('.imagepreview').attr('src', s);
                     $('#imagemodal').modal('show');
+                } else if (params.nodes == 32) {
+                    $('#imagemodal2').modal('show');
+                    var elem = document.getElementById("vid");
+                    if (elem.requestFullscreen) {
+                        elem.requestFullscreen();
+                    } else if (elem.msRequestFullscreen) {
+                        elem.msRequestFullscreen();
+                    } else if (elem.mozRequestFullScreen) {
+                        elem.mozRequestFullScreen();
+                    } else if (elem.webkitRequestFullscreen) {
+                        elem.webkitRequestFullscreen();
+                    }
+                    elem.play();
+
                 }
             });
 
@@ -459,14 +482,29 @@
     </script>
 </head>
 
+
+
 <body onload="draw()">
     <div id="mynetwork"></div>
+
     <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                     <img src="" class="imagepreview" style="width: 100%;">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="imagemodal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <video id="vid" width="480" height="360" controls>
+                        <source src="horror.mp4" type="video/mp4">
+                    </video>
                 </div>
             </div>
         </div>

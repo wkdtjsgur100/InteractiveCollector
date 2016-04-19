@@ -291,6 +291,16 @@
                     size: 50,
                     color: '#ffba00'
                 }
+            }, {
+                id: 38,
+                label: 'Homepage',
+                shape: 'icon',
+                icon: {
+                    face: 'FontAwesome',
+                    code: '\uf015',
+                    size: 50,
+                    color: '#ffba00'
+                }
             }];
 
             // create connections between people
@@ -334,8 +344,94 @@
             }, {
                 from: 9,
                 to: 37
+            }, {
+                from: 9,
+                to: 38
+            }, {// Depropedia
+                from: 33,
+                to: 11
+            }, {
+                from: 33,
+                to: 24
+            }, {// Mirror Mirror
+                from: 34,
+                to: 11
+            }, {
+                from: 34,
+                to: 18
+            }, {
+                from: 34,
+                to: 20
+            }, {
+                from: 34,
+                to: 24
+            }, {
+                from: 34,
+                to: 26
+            }, {// Facebook Link
+                from: 35,
+                to: 13                
+            }, {
+                from: 35,
+                to: 14
+            }, {
+                from: 35,
+                to: 16
+            }, {
+                from: 35,
+                to: 18
+            }, {
+                from: 35,
+                to: 25
+            }, {
+                from: 35,
+                to: 28
+            }, {// Interactive Web
+                from: 36,
+                to: 11
+            }, {
+                from: 36,
+                to: 17
+            }, {
+                from: 36,
+                to: 24
+            }, {
+                from: 36,
+                to: 22
+            }, {// Food commander
+                from: 37,
+                to: 10
+            }, {
+                from: 37,
+                to: 30
+            }, {
+                from: 37,
+                to: 23
+            }, {
+                from: 37,
+                to: 21
+            }, {
+                from: 37,
+                to: 29
+            }, {// Homepage
+                from: 38,
+                to: 15
+            }, {
+                from: 38,
+                to: 19
+            }, {
+                from: 38,
+                to: 27
+            }, {
+                from: 38,
+                to: 12
+            }, {
+                from: 38,
+                to: 31
+            }, {// special
+                from: 18,
+                to: 32
             }];
-
             // create a network
             var container = document.getElementById('mynetwork');
             var data = {

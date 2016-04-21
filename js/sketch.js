@@ -120,7 +120,7 @@ Boid.prototype.flock = function (boids) {
     var ali = this.align(boids); // Alignment
     var coh = this.cohesion(boids); // Cohesion
     // Arbitrarily weight these forces
-    sep.mult(2.0);
+    sep.mult(3.0);
     ali.mult(1.0);
     coh.mult(5.0);
     // Add the force vectors to acceleration
@@ -173,7 +173,7 @@ Boid.prototype.borders = function () {
 // Separation
 // Method checks for nearby boids and steers away
 Boid.prototype.separate = function (boids) {
-    var desiredseparation = 25.0;
+    var desiredseparation = 100.0;
     var steer = createVector(0, 0);
     var count = 0;
     // For every boid in the system, check if it's too close

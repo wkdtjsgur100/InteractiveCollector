@@ -1,8 +1,10 @@
 var boids = [];
 var moneys = [];
+var tosses = [];
 var moneyPic;
 var person;
 var spark;
+var tossPic;
 var happyPerson;
 var sparkTime;
 
@@ -12,6 +14,7 @@ function setup() {
     happyPerson = loadImage("../img/happyperson.png");
     moneyPic = loadImage("../img/50000s.png");
     spark = loadImage("../img/spark.png");
+    tossPic = loadImage("../img/toss.png");
     sparkTime = 0;
     
     // Add an initial set of boids into the system
@@ -24,10 +27,16 @@ function draw() {
     // Repaint gray on top each frame
     background(51);
     
+     // Run all Tosses
+    for (var i = 0; i < tosses.length; i++) {
+        tosses[i].render();
+    }
+    
     // Run all the boids
     for (var i = 0; i < boids.length; i++) {
         boids[i].run(boids);
-    }
+    } 
+   
     
     // Run all the moneys
     for (var i = 0; i < moneys.length; i++) {
@@ -48,7 +57,12 @@ function draw() {
 
 // Add new money at the clicked location
 function mousePressed() {
-    moneys[moneys.length] = new Money(mouseX, mouseY);
+    if (Math.random() >= 0.2) {
+        moneys[moneys.length] = new Money(mouseX, mouseY);    
+    } else {
+        tosses[tosses.length] = new Toss(mouseX, mouseY);
+    }
+    
 }
 
 // Money class
@@ -88,6 +102,16 @@ Money.prototype.render = function () {
     if ((Math.floor(sparkTime/10) % 2) == 0) {
         image(spark, this.position.x + 20, this.position.y - 20, spark.width/16, spark.height/16);
     }
+}
+
+// Toss Class
+//////////////////////////////////////////////
+function Toss(x,y) {
+    this.position = createVector(x,y);
+}
+
+Toss.prototype.render = function () {
+    image(tossPic, this.position.x, this.position.y, tossPic.width/8, tossPic.height/8);
 }
 
 // Boid class

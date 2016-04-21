@@ -2,12 +2,18 @@ var boids = [];
 var moneys = [];
 var moneyPic;
 var person;
+var spark;
 var happyPerson;
+var sparkTime;
+
 function setup() {
-    createCanvas(1400, 800);
+    createCanvas(1200, 700);
     person = loadImage("../img/person.png");
     happyPerson = loadImage("../img/happyperson.png");
     moneyPic = loadImage("../img/50000s.png");
+    spark = loadImage("../img/spark.png");
+    sparkTime = 0;
+    
     // Add an initial set of boids into the system
     for (var i = 0; i < 5; i++) {
         boids[i] = new Boid(random(width), random(height));
@@ -15,15 +21,20 @@ function setup() {
 }
 
 function draw() {
+    // Repaint gray on top each frame
     background(51);
+    
     // Run all the boids
     for (var i = 0; i < boids.length; i++) {
         boids[i].run(boids);
     }
-    // Draw all moneys
+    
+    // Run all the moneys
     for (var i = 0; i < moneys.length; i++) {
         moneys[i].run(boids);
     }
+    
+    //Delete any moneys that got eaten
     var newMoneys = [];
     for (var i = 0; i < moneys.length; i++) {
         if (moneys[i] != null) {
@@ -31,20 +42,25 @@ function draw() {
         }
     }
     moneys = newMoneys;
+    
+    sparkTime++;
 }
 
+// Add new money at the clicked location
 function mousePressed() {
     moneys[moneys.length] = new Money(mouseX, mouseY);
 }
 
 // Money class
-// Creates the money class with ust position
+//////////////////////////////////////////////
+// Creates the money class with current position
 function Money(x, y) {
     this.position = createVector(x, y);
 }
 
-// Ran for each frame
+// Run for each frame
 Money.prototype.run = function (boids) {
+    // Make the index null if it is eaten
     if (this.checkEaten(boids)) {
         var index = moneys.indexOf(this);
         moneys[index] = null;
@@ -66,13 +82,16 @@ Money.prototype.checkEaten = function (boids) {
     return eaten;
 }
 
-
-// Render draw money
+// Render draw money with spark
 Money.prototype.render = function () {
-    image(moneyPic, this.position.x, this.position.y, moneyPic.width/ 4, moneyPic.height/ 4);
+    image(moneyPic, this.position.x, this.position.y, moneyPic.width/4, moneyPic.height/4);
+    if ((Math.floor(sparkTime/10) % 2) == 0) {
+        image(spark, this.position.x + 20, this.position.y - 20, spark.width/16, spark.height/16);
+    }
 }
 
 // Boid class
+////////////////////////////////////////////////
 // Methods for Separation, Cohesion, Alignment added
 function Boid(x, y) {
     this.acceleration = createVector(0, 0);
@@ -136,7 +155,11 @@ Boid.prototype.seek = function (target) {
 
 // Draw boid as a person
 Boid.prototype.render = function () {
-    image(person, this.position.x, this.position.y, person.width/ 4, person.height/ 4);
+    if(moneys.length > 0) {
+        image(happyPerson, this.position.x, this.position.y, happyPerson.width/4, happyPerson.height/4);
+    } else {
+        image(person, this.position.x, this.position.y, person.width/4, person.height/4);
+    }
 }
 
 // Wraparound
@@ -210,18 +233,10 @@ Boid.prototype.align = function (boids) {
 // Cohesion
 // For the average location (i.e. center) of all nearby boids, calculate steering vector towards that location
 Boid.prototype.cohesion = function (boids) {
-    var neighbordist = 50;
     var toWhere = createVector(0, 0); // Start with empty vector to accumulate all locations
     var count = 0;
-    /*
-    for (var i = 0; i < boids.length; i++) {
-        var d = p5.Vector.dist(this.position, boids[i].position);
-        if ((d > 0) && (d < neighbordist)) {
-            sum.add(boids[i].position); // Add location
-            count++;
-        }
-    }*/
     var min = 10000;
+    // Find the closest money
     for (var i = 0; i < moneys.length; i++) {
         var d = p5.Vector.dist(this.position, moneys[i].position);
         if ((d > 0) && (d < min)) {
@@ -231,9 +246,8 @@ Boid.prototype.cohesion = function (boids) {
         }    
     }
     if (count > 0) {
-        //sum.div(count);
         return this.seek(toWhere); // Steer towards the location
     } else {
-        return createVector(0, 0);
+        return createVector(0, 0); // No effect if there's no money
     }
 }

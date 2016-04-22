@@ -26,7 +26,7 @@
     id = (typeof id != "undefined") ? id : "";
     this.capa = ($(id).lenght > 0) ? "body" : id;
     this.wW = 1800;
-    this.hW = 1000;
+    this.hW = 800;
   };
 
   ShootingStar.prototype.addBeamPart = function(x, y) {

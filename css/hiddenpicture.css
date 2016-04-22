@@ -26,8 +26,11 @@ body {
 
 /* Main Content */
 .main {
-	max-width: 69em;
-	min-height: 15em;
+/*	max-width: 69em;
+	min-height: 15em;*/
+    width: 20em;
+    height: 80em;
+    
 }
 
 

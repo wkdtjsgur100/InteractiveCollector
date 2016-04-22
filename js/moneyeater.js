@@ -10,11 +10,11 @@ var sparkTime;
 
 function setup() {
     createCanvas(1200, 700);
-    person = loadImage("../img/person.png");
-    happyPerson = loadImage("../img/happyperson.png");
-    moneyPic = loadImage("../img/50000s.png");
-    spark = loadImage("../img/spark.png");
-    tossPic = loadImage("../img/toss.png");
+    person = loadImage("../img/moneyeater/person.png");
+    happyPerson = loadImage("../img/moneyeater/happyperson.png");
+    moneyPic = loadImage("../img/moneyeater/50000s.png");
+    spark = loadImage("../img/moneyeater/spark.png");
+    tossPic = loadImage("../img/moneyeater/toss.png");
     sparkTime = 0;
     
     // Add an initial set of boids into the system

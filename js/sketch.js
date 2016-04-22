@@ -27,16 +27,24 @@ function draw() {
     // Repaint gray on top each frame
     background(51);
     
-     // Run all Tosses
-    for (var i = 0; i < tosses.length; i++) {
-        tosses[i].render();
-    }
-    
     // Run all the boids
     for (var i = 0; i < boids.length; i++) {
         boids[i].run(boids);
     } 
-   
+
+        
+     // Run all Tosses
+    for (var i = 0; i < tosses.length; i++) {
+        tosses[i].run(boids);
+    }
+    
+    var newTosses = [];
+    for (var i = 0; i < tosses.length; i++) {
+        if (tosses[i] != null) {
+            newTosses.push(tosses[i]);
+        }
+    }
+    tosses = newTosses;
     
     // Run all the moneys
     for (var i = 0; i < moneys.length; i++) {
@@ -106,10 +114,36 @@ Money.prototype.render = function () {
 
 // Toss Class
 //////////////////////////////////////////////
+// Create toss coins at the specified location
 function Toss(x,y) {
     this.position = createVector(x,y);
 }
 
+// Fun for each frame
+Toss.prototype.run = function (boids) {
+    // Check if the toss coin is kicked by boids
+    if (this.checkKicked(boids)) {
+        var index = tosses.indexOf(this);
+        tosses[index] = null;
+    } else {
+        this.render();
+    }
+}
+
+// Check if the toss should be kicked
+Toss.prototype.checkKicked = function (boids) {
+    var kickingRadius = 75;
+    var kicked = false;
+    for (var i = 0; i < boids.length; i++) {
+        var d = p5.Vector.dist(this.position, boids[i].position);
+        if (d < kickingRadius) {
+            kicked = true;
+        }
+    }
+    return kicked;
+}
+
+// Render drawing toss coins for each frame
 Toss.prototype.render = function () {
     image(tossPic, this.position.x, this.position.y, tossPic.width/8, tossPic.height/8);
 }

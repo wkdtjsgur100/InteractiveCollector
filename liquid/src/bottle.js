@@ -2,7 +2,7 @@ function Bottle(canvas) {
     this.width = Bottle.WIDTH;
     this.height = Bottle.HEIGHT;
     this.time = 0;
-    this.threshold = 0.3;
+    this.threshold = 0.12;
 
     this.doBlur = true;
     this.doThreshold = true;
@@ -65,8 +65,8 @@ function Bottle(canvas) {
 Bottle.WIDTH = 50;
 Bottle.HEIGHT = 70;
 Bottle.FPS = 60;
-Bottle.BALL_COUNT = 150;
-Bottle.BALL_RADIUS = 1;
+Bottle.BALL_COUNT = 1000;
+Bottle.BALL_RADIUS = 0.6;
 Bottle.BALL_DENSITY = 1;
 Bottle.BALL_FRICTION = 0;
 Bottle.BALL_RESTITUTION = 0.6;
@@ -171,6 +171,7 @@ Bottle.prototype.addBall = function(pos) {
     var def = new B.BodyDef();
     def.set_position(pos);
     def.set_type(B.b2_dynamicBody);
+    
     var circle = new B.CircleShape();
     circle.set_m_radius(Bottle.BALL_RADIUS);
     var mass = new B.FixtureDef();

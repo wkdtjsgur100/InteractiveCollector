@@ -2,7 +2,7 @@ body {
     background: white;
     color: salmon;
     font-family: sans-serif;
-    width: 500px;
+    width: 400px;
     margin: auto;
 }
 
@@ -13,5 +13,5 @@ a {
 canvas {
     display: block;
     margin: auto;
-    border: 10px solid gray;
+    border: 1px solid gray;
 }

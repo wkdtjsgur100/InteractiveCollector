@@ -8,6 +8,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/depronet.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="../js/depronet.js"></script>
@@ -32,34 +33,22 @@
             left: 0px;
             z-index: 1000;
         }
-        div#load_screen{
-	background: #000;
-	opacity: 1;
-	position: fixed;
-    z-index:10;
-	top: 0px;
-	width: 100%;
-	height: 1600px;
-}
-div#load_screen > div#loading{
-	color:#FFF;
-	width:120px;
-	height:24px;
-	margin: 300px auto;
-}
     </style>
-    <script>
-window.addEventListener("load", function(){
-	var load_screen = document.getElementById("load_screen");
-	document.body.removeChild(load_screen);
-});
-</script>
+
 </head>
 
 
 
-<body onload="draw()">
-    <div id="load_screen"><div id="loading">loading document</div></div>
+<body class="loaded" onload="draw()">
+    <div id="loader-wrapper">
+        <div id="loader">
+            <div class="loader-section section-left"></div>
+            <div class="loader-section section-right"></div>
+
+        </div>
+    </div>
+
+
     <div id="mynetwork"></div>
 
     <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

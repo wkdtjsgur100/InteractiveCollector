@@ -1,17 +1,9 @@
 body {
     background: white;
-    color: salmon;
-    font-family: sans-serif;
     width: 400px;
-    margin: auto;
 }
 
-a {
-    color: DarkKhaki;
-}
 
 canvas {
-    display: block;
-    margin: auto;
     border: 1px solid gray;
 }

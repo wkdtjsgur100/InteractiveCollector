@@ -11,8 +11,8 @@ void main() {
     vec4 value = texture2D(base, gl_FragCoord.xy / scale);
     if (copy != 0) {
         gl_FragColor = value;
-    } else if (value.r > threshold) {
-        gl_FragColor = vec4(0.2, 0.2, 1.0, 1.0);
+   } else if (value.r > threshold) {
+        gl_FragColor = vec4(0.5,0.0, 0.0, 0.92);
     } else {
         gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
     }

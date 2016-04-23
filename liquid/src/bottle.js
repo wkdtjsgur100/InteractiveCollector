@@ -2,17 +2,21 @@ function Bottle(canvas) {
     this.width = Bottle.WIDTH;
     this.height = Bottle.HEIGHT;
     this.time = 0;
-    this.threshold = 0.12;
+    this.threshold = 0.05;
 
     this.doBlur = true;
     this.doThreshold = true;
 
-    this.world = new B.World(Bottle.GRAVITY, false);
+    this.world = new B.World(Bottle.GRAVITY, true);
     this.polys = [];
     this.buildOuter();
     this.addSpike(new B.Vec2( Bottle.SPIKE_EXTENT, 0),  1);
     this.addSpike(new B.Vec2(-Bottle.SPIKE_EXTENT, 0), -1);
     this.balls = [];
+    this.mouse_pressed = false;
+    this.mouse_x = 0;
+    this.mouse_y = 0;
+    
     for (var i = 0; i < Bottle.BALL_COUNT; i++) {
         this.addBall();
     }
@@ -65,11 +69,11 @@ function Bottle(canvas) {
 Bottle.WIDTH = 50;
 Bottle.HEIGHT = 70;
 Bottle.FPS = 60;
-Bottle.BALL_COUNT = 1000;
-Bottle.BALL_RADIUS = 0.6;
+Bottle.BALL_COUNT = 0;
+Bottle.BALL_RADIUS = 0.1;
 Bottle.BALL_DENSITY = 1;
 Bottle.BALL_FRICTION = 0;
-Bottle.BALL_RESTITUTION = 0.6;
+Bottle.BALL_RESTITUTION = 0.4;
 Bottle.GRAVITY = new B.Vec2(0, -10);
 Bottle.NGRAVITY = new B.Vec2(0, -Bottle.GRAVITY.get_y());
 Bottle.FLIP_RATE = 2.4;
@@ -83,6 +87,19 @@ Bottle.SPIKE_EXTENT = 20;
 Bottle.highest2 = function(x) {
     return Math.pow(2, Math.ceil(Math.log(x) / Math.LN2));
 };
+Bottle.prototype.mouseMove = function(x,y){
+    this.mouse_x = x;
+    this.mouse_y = y;
+}
+Bottle.prototype.mouseUp = function(x,y){
+    console.log(x+" "+y);
+    this.mouse_pressed = false;
+}
+Bottle.prototype.mouseDown = function(x,y){
+    this.mouse_pressed = true;
+    this.mouse_x = x;
+    this.mouse_y = y;
+}
 
 Bottle.prototype.texScale = function() {
     return vec2(Bottle.highest2(this.gl.canvas.width),
@@ -126,7 +143,7 @@ Bottle.prototype.swap = function() {
 Bottle.prototype.buildOuter = function() {
     var thickness = 0.1;
     var box = new B.PolygonShape(), def = new B.BodyDef();
-
+    
     def.set_position(new B.Vec2(this.width / 2, 0));
     box.SetAsBox(thickness / 2, this.height / 2);
     this.world.CreateBody(def).CreateFixture(box, 0);
@@ -233,5 +250,10 @@ Bottle.prototype.render = function() {
 Bottle.prototype.step = function() {
     this.world.SetGravity(Bottle.GRAVITY);
     
+    if(this.mouse_pressed)
+    {
+        this.addBall(new B.Vec2(this.mouse_x/20 - (this.width / 2),
+                      (this.height-this.mouse_y/12) - (this.height / 2)));
+    }
     this.world.Step(1 / 30, 8, 3);
 };

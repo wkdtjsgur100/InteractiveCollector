@@ -9,7 +9,7 @@ var happyPerson;
 var sparkTime;
 
 function setup() {
-    createCanvas(1200, 700);
+    createCanvas(window.innerWidth, window.innerHeight);
     person = loadImage("../img/moneyeater/person.png");
     happyPerson = loadImage("../img/moneyeater/happyperson.png");
     moneyPic = loadImage("../img/moneyeater/50000s.png");

@@ -128,8 +128,8 @@ Toss.prototype.run = function (boids) {
         //var index = tosses.indexOf(this);
         //tosses[index] = null;
         this.kicked = true;
-        this.velocity.x = 3;
-        this.velocity.y = 3;
+        //this.velocity.x = 3;
+        //this.velocity.y = 3;
     }
     if (this.kicked) {
         this.position.add(this.velocity);
@@ -150,6 +150,7 @@ Toss.prototype.checkKicked = function (boids) {
         var d = p5.Vector.dist(this.position, boids[i].position);
         if (d < kickingRadius) {
             kicked = true;
+            this.velocity = p5.Vector.sub(this.position, boids[i].position);
         }
     }
     return kicked;

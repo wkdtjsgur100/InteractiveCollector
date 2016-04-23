@@ -117,19 +117,31 @@ Money.prototype.render = function () {
 // Create toss coins at the specified location
 function Toss(x,y) {
     this.position = createVector(x,y);
+    this.kicked = false;
+    this.velocity = createVector(0,0);
 }
 
 // Fun for each frame
 Toss.prototype.run = function (boids) {
     // Check if the toss coin is kicked by boids
     if (this.checkKicked(boids)) {
-        var index = tosses.indexOf(this);
-        tosses[index] = null;
-    } else {
-        this.render();
+        //var index = tosses.indexOf(this);
+        //tosses[index] = null;
+        this.kicked = true;
+        this.velocity.x = 3;
+        this.velocity.y = 3;
     }
+    if (this.kicked) {
+        this.position.add(this.velocity);
+    }
+    
+    
+    this.render();
+    
 }
-
+Toss.prototype.move = function () {
+    
+}
 // Check if the toss should be kicked
 Toss.prototype.checkKicked = function (boids) {
     var kickingRadius = 75;

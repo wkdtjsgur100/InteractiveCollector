@@ -9,7 +9,7 @@ var happyPerson;
 var sparkTime;
 
 function setup() {
-    createCanvas(1200, 700);
+    createCanvas(window.innerWidth, window.innerHeight);
     person = loadImage("../img/moneyeater/person.png");
     happyPerson = loadImage("../img/moneyeater/happyperson.png");
     moneyPic = loadImage("../img/moneyeater/50000s.png");
@@ -106,9 +106,9 @@ Money.prototype.checkEaten = function (boids) {
 
 // Render draw money with spark
 Money.prototype.render = function () {
-    image(moneyPic, this.position.x, this.position.y, moneyPic.width/4, moneyPic.height/4);
+    image(moneyPic, this.position.x, this.position.y, moneyPic.width/2, moneyPic.height/2);
     if ((Math.floor(sparkTime/10) % 2) == 0) {
-        image(spark, this.position.x + 20, this.position.y - 20, spark.width/16, spark.height/16);
+        image(spark, this.position.x + 60, this.position.y - 30, spark.width/8, spark.height/8);
     }
 }
 
@@ -117,19 +117,35 @@ Money.prototype.render = function () {
 // Create toss coins at the specified location
 function Toss(x,y) {
     this.position = createVector(x,y);
+    this.kicked = false;
+    this.velocity = createVector(0,0);
 }
 
 // Fun for each frame
 Toss.prototype.run = function (boids) {
     // Check if the toss coin is kicked by boids
     if (this.checkKicked(boids)) {
+        //var index = tosses.indexOf(this);
+        //tosses[index] = null;
+        this.kicked = true;
+        //this.velocity.x = 3;
+        //this.velocity.y = 3;
+    }
+    if (this.kicked) {
+        this.position.add(this.velocity);
+    }
+    
+    
+    this.render();
+    if (this.position.x < -this.r || this.position.x > width + this.r || this.position.y < -this.r || this.position.y > height + this.r) {
         var index = tosses.indexOf(this);
         tosses[index] = null;
-    } else {
-        this.render();
     }
+    
 }
-
+Toss.prototype.move = function () {
+    
+}
 // Check if the toss should be kicked
 Toss.prototype.checkKicked = function (boids) {
     var kickingRadius = 75;
@@ -138,6 +154,7 @@ Toss.prototype.checkKicked = function (boids) {
         var d = p5.Vector.dist(this.position, boids[i].position);
         if (d < kickingRadius) {
             kicked = true;
+            this.velocity = p5.Vector.sub(this.position, boids[i].position);
         }
     }
     return kicked;
@@ -145,7 +162,7 @@ Toss.prototype.checkKicked = function (boids) {
 
 // Render drawing toss coins for each frame
 Toss.prototype.render = function () {
-    image(tossPic, this.position.x, this.position.y, tossPic.width/8, tossPic.height/8);
+    image(tossPic, this.position.x, this.position.y, tossPic.width/4, tossPic.height/4);
 }
 
 // Boid class
@@ -222,10 +239,19 @@ Boid.prototype.render = function () {
 
 // Wraparound
 Boid.prototype.borders = function () {
-    if (this.position.x < -this.r) this.position.x = width + this.r;
+    /*if (this.position.x < -this.r) this.position.x = width + this.r;
     if (this.position.y < -this.r) this.position.y = height + this.r;
     if (this.position.x > width + this.r) this.position.x = -this.r;
-    if (this.position.y > height + this.r) this.position.y = -this.r;
+    if (this.position.y > height + this.r) this.position.y = -this.r;*/
+    if (this.position.x < this.r) {
+        this.velocity.x =  3;
+    } 
+    if (this.position.x > width - 30*this.r)
+        this.velocity.x = -3;
+    if (this.position.y < this.r)
+        this.velocity.y = 3;
+    if (this.position.y > height - 30*this.r)
+        this.velocity.y = -3;
 }
 
 // Separation

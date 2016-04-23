@@ -137,6 +137,10 @@ Toss.prototype.run = function (boids) {
     
     
     this.render();
+    if (this.position.x < -this.r || this.position.x > width + this.r || this.position.y < -this.r || this.position.y > height + this.r) {
+        var index = tosses.indexOf(this);
+        tosses[index] = null;
+    }
     
 }
 Toss.prototype.move = function () {

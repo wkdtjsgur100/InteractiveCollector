@@ -106,9 +106,9 @@ Money.prototype.checkEaten = function (boids) {
 
 // Render draw money with spark
 Money.prototype.render = function () {
-    image(moneyPic, this.position.x, this.position.y, moneyPic.width/4, moneyPic.height/4);
+    image(moneyPic, this.position.x, this.position.y, moneyPic.width/2, moneyPic.height/2);
     if ((Math.floor(sparkTime/10) % 2) == 0) {
-        image(spark, this.position.x + 20, this.position.y - 20, spark.width/16, spark.height/16);
+        image(spark, this.position.x + 20, this.position.y - 20, spark.width/8, spark.height/8);
     }
 }
 
@@ -145,7 +145,7 @@ Toss.prototype.checkKicked = function (boids) {
 
 // Render drawing toss coins for each frame
 Toss.prototype.render = function () {
-    image(tossPic, this.position.x, this.position.y, tossPic.width/8, tossPic.height/8);
+    image(tossPic, this.position.x, this.position.y, tossPic.width/4, tossPic.height/4);
 }
 
 // Boid class

@@ -108,7 +108,7 @@ Money.prototype.checkEaten = function (boids) {
 Money.prototype.render = function () {
     image(moneyPic, this.position.x, this.position.y, moneyPic.width/2, moneyPic.height/2);
     if ((Math.floor(sparkTime/10) % 2) == 0) {
-        image(spark, this.position.x + 20, this.position.y - 20, spark.width/8, spark.height/8);
+        image(spark, this.position.x + 60, this.position.y - 30, spark.width/8, spark.height/8);
     }
 }
 

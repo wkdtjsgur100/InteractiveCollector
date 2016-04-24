@@ -174,6 +174,7 @@ function Boid(x, y) {
     this.r = 3.0;
     this.maxspeed = 3; // Maximum speed
     this.maxforce = 0.05; // Maximum steering force
+    this.angle = 0;
 }
 
 Boid.prototype.run = function (boids) {
@@ -191,15 +192,16 @@ Boid.prototype.applyForce = function (force) {
 // We accumulate a new acceleration each time based on three rules
 Boid.prototype.flock = function (boids) {
     var sep = this.separate(boids); // Separation
-    var ali = this.align(boids); // Alignment
+    //var ali = this.align(boids); // Alignment
     var coh = this.cohesion(boids); // Cohesion
     // Arbitrarily weight these forces
     sep.mult(3.0);
-    ali.mult(1.0);
+    //ali.mult(1.0);
     coh.mult(5.0);
     // Add the force vectors to acceleration
     this.applyForce(sep);
-    this.applyForce(ali);
+    //this.applyForce(ali);
+    //this.velocity.limit(this.maxspeed);
     this.applyForce(coh);
 }
 
@@ -229,11 +231,35 @@ Boid.prototype.seek = function (target) {
 
 // Draw boid as a person
 Boid.prototype.render = function () {
-    if(moneys.length > 0) {
-        image(happyPerson, this.position.x, this.position.y, happyPerson.width/4, happyPerson.height/4);
+    var left = createVector(-1, 0);
+    var angle = p5.Vector.angleBetween(left, this.velocity);
+    angle = (Math.floor(angle * 20 / PI))* PI / 20;
+    push();
+    angleMode(RADIANS);
+    translate(this.position.x, this.position.y);
+    this.angle = (0.9 * this.angle + angle * 0.1);
+    if (this.velocity.x > 0) {
+        scale(-1.0,1.0);
+        if (this.velocity.y > 0) {
+            rotate(this.angle - PI);    
+        } else {
+            rotate(PI - this.angle);
+        }
     } else {
-        image(person, this.position.x, this.position.y, person.width/4, person.height/4);
+        if (this.velocity.y >= 0) {
+            rotate(-this.angle);    
+        } else {
+            rotate(this.angle);    
+        }
     }
+ 
+    if(moneys.length > 0) {
+        image(happyPerson, 0, 0, happyPerson.width/4, happyPerson.height/4);
+  
+    } else {
+        image(person,0, 0, person.width/4, person.height/4);
+    }
+    pop();
 }
 
 // Bounce back if hit the wall
@@ -327,6 +353,7 @@ Boid.prototype.cohesion = function (boids) {
     if (count > 0) {
         return this.seek(toWhere); // Steer towards the location
     } else {
-        return createVector(0, 0); // No effect if there's no money
+        return createVector(0,0);
+        //return createVector(random(-0.003,0.003), random(-0.003,0.003)); // No effect if there's no money
     }
 }

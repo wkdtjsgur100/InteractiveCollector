@@ -32,12 +32,12 @@ function draw() {
         boids[i].run(boids);
     } 
 
-        
      // Run all Tosses
     for (var i = 0; i < tosses.length; i++) {
         tosses[i].run(boids);
     }
     
+    // Delete tosses that got kicked out
     var newTosses = [];
     for (var i = 0; i < tosses.length; i++) {
         if (tosses[i] != null) {
@@ -60,18 +60,19 @@ function draw() {
     }
     moneys = newMoneys;
     
+    // Change sparkling
     sparkTime++;
 }
 
-// Add new money at the clicked location
+// Add new money/toss at the clicked location
 function mousePressed() {
     if (Math.random() >= 0.2) {
         moneys[moneys.length] = new Money(mouseX, mouseY);    
     } else {
         tosses[tosses.length] = new Toss(mouseX, mouseY);
     }
-    
 }
+
 
 // Money class
 //////////////////////////////////////////////
@@ -87,6 +88,7 @@ Money.prototype.run = function (boids) {
         var index = moneys.indexOf(this);
         moneys[index] = null;
     } else {
+        // If not eaten render
         this.render();
     }
 }
@@ -95,6 +97,7 @@ Money.prototype.run = function (boids) {
 Money.prototype.checkEaten = function (boids) {
     var eatingRadius = 75;
     var eaten = false;
+    // Check if there's a person nearby
     for (var i = 0; i < boids.length; i++) {
         var d = p5.Vector.dist(this.position, boids[i].position);
         if (d < eatingRadius) {
@@ -121,31 +124,27 @@ function Toss(x,y) {
     this.velocity = createVector(0,0);
 }
 
-// Fun for each frame
+// Run for each frame
 Toss.prototype.run = function (boids) {
     // Check if the toss coin is kicked by boids
     if (this.checkKicked(boids)) {
-        //var index = tosses.indexOf(this);
-        //tosses[index] = null;
         this.kicked = true;
-        //this.velocity.x = 3;
-        //this.velocity.y = 3;
     }
+    // If the toss is kick, move the coin
     if (this.kicked) {
         this.position.add(this.velocity);
     }
     
-    
+    // Draw the toss image
     this.render();
+    
+    // If the coin gets out of the screen, delete the coin
     if (this.position.x < -this.r || this.position.x > width + this.r || this.position.y < -this.r || this.position.y > height + this.r) {
         var index = tosses.indexOf(this);
         tosses[index] = null;
     }
-    
 }
-Toss.prototype.move = function () {
-    
-}
+
 // Check if the toss should be kicked
 Toss.prototype.checkKicked = function (boids) {
     var kickingRadius = 75;
@@ -237,12 +236,8 @@ Boid.prototype.render = function () {
     }
 }
 
-// Wraparound
+// Bounce back if hit the wall
 Boid.prototype.borders = function () {
-    /*if (this.position.x < -this.r) this.position.x = width + this.r;
-    if (this.position.y < -this.r) this.position.y = height + this.r;
-    if (this.position.x > width + this.r) this.position.x = -this.r;
-    if (this.position.y > height + this.r) this.position.y = -this.r;*/
     if (this.position.x < this.r) {
         this.velocity.x =  3;
     } 

@@ -1,0 +1,12 @@
+/*basic reset*/
+* {margin: 0; padding: 0;}
+/*adding a black bg to the body to make things clearer*/
+body {background: black;}
+canvas {display: block;}
+
+input,button{
+    background: black;
+    border-color: #0F0;
+    border-style: solid;
+    color:#0F0;
+}
